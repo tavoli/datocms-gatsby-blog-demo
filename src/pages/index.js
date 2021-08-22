@@ -6,7 +6,7 @@ import MoreStories from "../components/more-stories";
 import { HelmetDatoCms } from "gatsby-source-datocms";
 import { graphql } from "gatsby";
 
-export default function Index({ data: { allPosts, site, blog } }) {
+export default function Index({ data: { allPosts, allProducts, site, blog } }) {
   const heroPost = allPosts.nodes[0];
   const morePosts = allPosts.nodes.slice(1);
 
@@ -25,6 +25,7 @@ export default function Index({ data: { allPosts, site, blog } }) {
         />
       )}
       {morePosts.length > 0 && <MoreStories posts={morePosts} />}
+      {allProducts.map(p => <div>{p.name} - {p.price}</div>)}
     </Container>
   );
 }
@@ -67,6 +68,16 @@ export const query = graphql`
             }
           }
         }
+      }
+    }
+    {
+      allProducts {
+        id
+        name
+        price
+      }
+      _allProductsMeta {
+        count
       }
     }
   }
